@@ -147,21 +147,6 @@ PyObject* fromMatToNDArray(const Mat& m) {
 	return o;
 }
 
-struct ArgInfo {
-	const char * name;
-	bool outputarg;
-	// more fields may be added if necessary
-
-	ArgInfo(const char * name_, bool outputarg_) :
-			name(name_), outputarg(outputarg_) {
-	}
-
-	// to match with older pyopencv_to function signature
-	operator const char *() const {
-		return name;
-	}
-};
-
 static int failmsg(const char *fmt, ...) {
 	char str[1000];
 
