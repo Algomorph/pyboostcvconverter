@@ -12,6 +12,11 @@ qrc_*
 /bin/
 /lib/
 
+# Compiled binaries
+*.so
+*.a
+*.dll
+
 # Compiled Object files
 *.slo
 *.lo
