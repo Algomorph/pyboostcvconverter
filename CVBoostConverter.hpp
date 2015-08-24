@@ -14,7 +14,6 @@
 #include <Python.h>
 #include <numpy/ndarrayobject.h>
 #include <opencv2/core/core.hpp>
-#include <opencv2/core/utility.hpp>
 #include <boost/python.hpp>
 #include <cstdio>
 
@@ -277,12 +276,12 @@ struct matToNDArrayBoostConverter {
 			Py_RETURN_NONE;
 		Mat *p = (Mat*) &m;
 		Mat temp;
-		if (!p->u || p->allocator != &g_numpyAllocator) {
+		if (!p->e || p->allocator != &g_numpyAllocator) {
 			temp.allocator = &g_numpyAllocator;
 			ERRWRAP2(m.copyTo(temp));
 			p = &temp;
 		}
-		PyObject* o = (PyObject*) p->u->userdata;
+		PyObject* o = (PyObject*) p->data;
 		return boost::python::incref(o);
 	}
 };
