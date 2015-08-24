@@ -20,6 +20,15 @@ Boost_DIR:PATH=Boost_DIR-NOTFOUND
 //Path to a file.
 Boost_INCLUDE_DIR:PATH=/usr/include
 
+//Boost library directory
+Boost_LIBRARY_DIR:PATH=/usr/lib/x86_64-linux-gnu
+
+//Boost python library (debug)
+Boost_PYTHON_LIBRARY_DEBUG:FILEPATH=/usr/lib/x86_64-linux-gnu/libboost_python.so
+
+//Boost python library (release)
+Boost_PYTHON_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libboost_python.so
+
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
@@ -73,11 +82,11 @@ CMAKE_ECLIPSE_EXECUTABLE:FILEPATH=/usr/local/bin/eclipse
 
 //If disabled, CMake will not generate linked resource to the subprojects
 // and to the source files within targets
-CMAKE_ECLIPSE_GENERATE_LINKED_RESOURCES:BOOL=ON
+CMAKE_ECLIPSE_GENERATE_LINKED_RESOURCES:BOOL=TRUE
 
 //If enabled, CMake will generate a source project for Eclipse
 // in CMAKE_SOURCE_DIR
-CMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT:BOOL=OFF
+CMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT:BOOL=FALSE
 
 //Additional command line arguments when Eclipse invokes make.
 // Enter e.g. -j<some_number> to get parallel builds
@@ -85,7 +94,7 @@ CMAKE_ECLIPSE_MAKE_ARGUMENTS:STRING=-j8
 
 //The version of Eclipse. If Eclipse has not been found, 3.6 (Helios)
 // is assumed.
-CMAKE_ECLIPSE_VERSION:STRING=4.4 ()
+CMAKE_ECLIPSE_VERSION:STRING=4.5 ()
 
 //Flags used by the linker.
 CMAKE_EXE_LINKER_FLAGS:STRING=
@@ -139,7 +148,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=matmul
+CMAKE_PROJECT_NAME:STATIC=pbcvt
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -161,10 +170,10 @@ CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //If set, runtime paths are not added when installing shared libraries,
 // but are added when building.
-CMAKE_SKIP_INSTALL_RPATH:BOOL=OFF
+CMAKE_SKIP_INSTALL_RPATH:BOOL=NO
 
 //If set, runtime paths are not added when using shared libraries.
-CMAKE_SKIP_RPATH:BOOL=OFF
+CMAKE_SKIP_RPATH:BOOL=NO
 
 //Flags used by the linker during the creation of static libraries.
 CMAKE_STATIC_LINKER_FLAGS:STRING=
@@ -191,7 +200,7 @@ CMAKE_USE_RELATIVE_PATHS:BOOL=OFF
 // .SILENT directive, and all commands will be echoed to the console
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
-CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
+CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Compile device code in 64 bit mode
 CUDA_64_BIT_DEVICE_CODE:BOOL=ON
@@ -296,9 +305,6 @@ CUDA_nppi_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libnppi.so
 //"npps" library
 CUDA_npps_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libnpps.so
 
-//The directory containing a CMake configuration file for OpenCV2.
-OpenCV2_DIR:PATH=OpenCV2_DIR-NOTFOUND
-
 //Path where debug 3rdpaty OpenCV dependencies are located
 OpenCV_3RDPARTY_LIB_DIR_DBG:PATH=
 
@@ -316,14 +322,50 @@ OpenCV_LIB_DIR_DBG:PATH=
 //Path where release OpenCV libraries are located
 OpenCV_LIB_DIR_OPT:PATH=
 
-//Path to a file.
-PYTHON_INCLUDE_DIR:PATH=/usr/include/python2.7
+//Path to Python interpretor
+PYTHON2_EXECUTABLE:FILEPATH=/usr/bin/python2.7
 
-//Path to a library.
-PYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython2.7.so
+//Python include dir
+PYTHON2_INCLUDE_DIR:PATH=/usr/include/python2.7
 
-//Path to a library.
-PYTHON_LIBRARY_DEBUG:FILEPATH=PYTHON_LIBRARY_DEBUG-NOTFOUND
+//Python include dir 2
+PYTHON2_INCLUDE_DIR2:PATH=
+
+//Path to Python library
+PYTHON2_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython2.7.so
+
+//Path to Python debug
+PYTHON2_LIBRARY_DEBUG:FILEPATH=
+
+//Path to numpy headers
+PYTHON2_NUMPY_INCLUDE_DIRS:PATH=/usr/lib/python2.7/dist-packages/numpy/core/include
+
+//Where to install the python packages.
+PYTHON2_PACKAGES_PATH:PATH=lib/python2.7/dist-packages
+
+//Path to Python interpretor
+PYTHON3_EXECUTABLE:FILEPATH=/usr/bin/python3.4
+
+//Python include dir
+PYTHON3_INCLUDE_DIR:PATH=/usr/include/python3.4m
+
+//Python include dir 2
+PYTHON3_INCLUDE_DIR2:PATH=
+
+//Path to Python library
+PYTHON3_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.4m.so
+
+//Path to Python debug
+PYTHON3_LIBRARY_DEBUG:FILEPATH=
+
+//Path to numpy headers
+PYTHON3_NUMPY_INCLUDE_DIRS:PATH=/home/algomorph/.local/lib/python3.4/site-packages/numpy/core/include
+
+//Where to install the python packages.
+PYTHON3_PACKAGES_PATH:PATH=lib/python3.4/dist-packages
+
+//Choose which python version to use, options are: 2.X;3.X.
+PYTHON_DESIRED_VERSION:STRING=2.X
 
 //Path to a program.
 ProcessorCount_cmd_getconf:FILEPATH=/usr/bin/getconf
@@ -331,14 +373,14 @@ ProcessorCount_cmd_getconf:FILEPATH=/usr/bin/getconf
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
 
-//The directory containing a CMake configuration file for Python.
-Python_DIR:PATH=Python_DIR-NOTFOUND
+//Value Computed by CMake
+pbcvt_BINARY_DIR:STATIC=/home/algomorph/Factory/pyboostcvconverter
+
+//Dependencies for the target
+pbcvt_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libboost_python.so;general;opencv_core;general;/usr/lib/x86_64-linux-gnu/libpython2.7.so;
 
 //Value Computed by CMake
-matmul_BINARY_DIR:STATIC=/home/algomorph/Factory/pyboostcvconverter
-
-//Value Computed by CMake
-matmul_SOURCE_DIR:STATIC=/home/algomorph/Factory/pyboostcvconverter
+pbcvt_SOURCE_DIR:STATIC=/home/algomorph/Factory/pyboostcvconverter
 
 
 ########################
@@ -349,6 +391,12 @@ matmul_SOURCE_DIR:STATIC=/home/algomorph/Factory/pyboostcvconverter
 Boost_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_INCLUDE_DIR
 Boost_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_LIBRARY_DIR
+Boost_LIBRARY_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_PYTHON_LIBRARY_DEBUG
+Boost_PYTHON_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_PYTHON_LIBRARY_RELEASE
+Boost_PYTHON_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -491,6 +539,10 @@ CMAKE_UNAME:INTERNAL=/bin/uname
 CMAKE_USE_RELATIVE_PATHS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Test COMPILER_SUPPORTS_CXX0X
+COMPILER_SUPPORTS_CXX0X:INTERNAL=1
+//Test COMPILER_SUPPORTS_CXX11
+COMPILER_SUPPORTS_CXX11:INTERNAL=1
 //ADVANCED property for variable: CUDA_64_BIT_DEVICE_CODE
 CUDA_64_BIT_DEVICE_CODE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE
@@ -566,8 +618,10 @@ CUDA_parse_cubin:INTERNAL=/usr/share/cmake-3.2/Modules/FindCUDA/parse_cubin.cmak
 CUDA_run_nvcc:INTERNAL=/usr/share/cmake-3.2/Modules/FindCUDA/run_nvcc.cmake
 //Details about finding CUDA
 FIND_PACKAGE_MESSAGE_DETAILS_CUDA:INTERNAL=[/usr][/usr/bin/nvcc][/usr/include][/usr/lib/x86_64-linux-gnu/libcudart.so][v6.5(6.5)]
+//Details about finding PythonInterp
+FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/bin/python3.4][v3.4.3(3.4)]
 //Details about finding PythonLibs
-FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython2.7.so][/usr/include/python2.7][v2.7.9()]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython3.4m.so][/usr/include/python3.4m][v3.4.3(3.4.3)]
 //ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_DBG
 OpenCV_3RDPARTY_LIB_DIR_DBG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_OPT
@@ -578,20 +632,18 @@ OpenCV_CONFIG_PATH-ADVANCED:INTERNAL=1
 OpenCV_LIB_DIR_DBG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OpenCV_LIB_DIR_OPT
 OpenCV_LIB_DIR_OPT-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_INCLUDE_DIR
-PYTHON_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_LIBRARY
-PYTHON_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_LIBRARY_DEBUG
-PYTHON_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//STRINGS property for variable: PYTHON_DESIRED_VERSION
+PYTHON_DESIRED_VERSION-STRINGS:INTERNAL=2.X;3.X
 //ADVANCED property for variable: ProcessorCount_cmd_getconf
 ProcessorCount_cmd_getconf-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ProcessorCount_cmd_sysctl
 ProcessorCount_cmd_sysctl-ADVANCED:INTERNAL=1
 //Components requested for this build tree.
-_Boost_COMPONENTS_SEARCHED:INTERNAL=
+_Boost_COMPONENTS_SEARCHED:INTERNAL=python
 //Last used Boost_INCLUDE_DIR value.
 _Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
+//Last used Boost_LIBRARY_DIR value.
+_Boost_LIBRARY_DIR_LAST:INTERNAL=/usr/lib/x86_64-linux-gnu
 //Last used Boost_NAMESPACE value.
 _Boost_NAMESPACE_LAST:INTERNAL=boost
 //Last used Boost_USE_MULTITHREADED value.

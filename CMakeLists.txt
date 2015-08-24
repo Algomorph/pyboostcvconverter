@@ -41,9 +41,10 @@ else()
     SET(PYTHON_PACKAGES_PATH ${PYTHON3_PACKAGES_PATH})
 endif() 
 
-#message(STATUS "${PYTHON_INCLUDE_DIRS}")
+
 
 file(GLOB project_sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+message(STATUS "${project_sources}")
 
 add_library(${PROJECT_NAME} SHARED ${project_sources} ${CMAKE_CURRENT_SOURCE_DIR}/include/pyboostcvconverter/pyboostcvconverter.hpp)
 target_include_directories(${PROJECT_NAME} PUBLIC 
@@ -62,11 +63,11 @@ target_link_libraries(${PROJECT_NAME}
 #---------------------------   INSTALLATION    -----------------------------------------------------
 #-get proper extension for python binary shared object on this platform
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print distutils.sysconfig.get_config_var('SO')"
-                RESULT_VARIABLE ${PROJECT_NAME}_PY_PROCESS
+                RESULT_VARIABLE PYTHON_${PROJECT_NAME}_PY_PROCESS
                 OUTPUT_VARIABLE ${PROJECT_NAME}_PY_SUFFIX
                 OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-set_target_properties(${subproject_name} PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
                       PREFIX ""
                       OUTPUT_NAME pbcvt
                       SUFFIX ${${PROJECT_NAME}_PY_SUFFIX})

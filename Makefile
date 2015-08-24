@@ -50,6 +50,16 @@ CMAKE_BINARY_DIR = /home/algomorph/Factory/pyboostcvconverter
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+.PHONY : install/strip/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -69,6 +79,37 @@ rebuild_cache:
 # Special rule for the target rebuild_cache
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"python\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: install/local
+.PHONY : install/local/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -102,41 +143,89 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named matmul
+# Target rules for targets named pbcvt
 
 # Build rule for target.
-matmul: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 matmul
-.PHONY : matmul
+pbcvt: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pbcvt
+.PHONY : pbcvt
 
 # fast build rule for target.
-matmul/fast:
-	$(MAKE) -f CMakeFiles/matmul.dir/build.make CMakeFiles/matmul.dir/build
-.PHONY : matmul/fast
+pbcvt/fast:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/build
+.PHONY : pbcvt/fast
 
-matmul.o: matmul.cpp.o
-.PHONY : matmul.o
+src/pyboost_cv2_converter.o: src/pyboost_cv2_converter.cpp.o
+.PHONY : src/pyboost_cv2_converter.o
 
 # target to build an object file
-matmul.cpp.o:
-	$(MAKE) -f CMakeFiles/matmul.dir/build.make CMakeFiles/matmul.dir/matmul.cpp.o
-.PHONY : matmul.cpp.o
+src/pyboost_cv2_converter.cpp.o:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/pyboost_cv2_converter.cpp.o
+.PHONY : src/pyboost_cv2_converter.cpp.o
 
-matmul.i: matmul.cpp.i
-.PHONY : matmul.i
+src/pyboost_cv2_converter.i: src/pyboost_cv2_converter.cpp.i
+.PHONY : src/pyboost_cv2_converter.i
 
 # target to preprocess a source file
-matmul.cpp.i:
-	$(MAKE) -f CMakeFiles/matmul.dir/build.make CMakeFiles/matmul.dir/matmul.cpp.i
-.PHONY : matmul.cpp.i
+src/pyboost_cv2_converter.cpp.i:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/pyboost_cv2_converter.cpp.i
+.PHONY : src/pyboost_cv2_converter.cpp.i
 
-matmul.s: matmul.cpp.s
-.PHONY : matmul.s
+src/pyboost_cv2_converter.s: src/pyboost_cv2_converter.cpp.s
+.PHONY : src/pyboost_cv2_converter.s
 
 # target to generate assembly for a file
-matmul.cpp.s:
-	$(MAKE) -f CMakeFiles/matmul.dir/build.make CMakeFiles/matmul.dir/matmul.cpp.s
-.PHONY : matmul.cpp.s
+src/pyboost_cv2_converter.cpp.s:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/pyboost_cv2_converter.cpp.s
+.PHONY : src/pyboost_cv2_converter.cpp.s
+
+src/pyboost_cv3_converter.o: src/pyboost_cv3_converter.cpp.o
+.PHONY : src/pyboost_cv3_converter.o
+
+# target to build an object file
+src/pyboost_cv3_converter.cpp.o:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/pyboost_cv3_converter.cpp.o
+.PHONY : src/pyboost_cv3_converter.cpp.o
+
+src/pyboost_cv3_converter.i: src/pyboost_cv3_converter.cpp.i
+.PHONY : src/pyboost_cv3_converter.i
+
+# target to preprocess a source file
+src/pyboost_cv3_converter.cpp.i:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/pyboost_cv3_converter.cpp.i
+.PHONY : src/pyboost_cv3_converter.cpp.i
+
+src/pyboost_cv3_converter.s: src/pyboost_cv3_converter.cpp.s
+.PHONY : src/pyboost_cv3_converter.s
+
+# target to generate assembly for a file
+src/pyboost_cv3_converter.cpp.s:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/pyboost_cv3_converter.cpp.s
+.PHONY : src/pyboost_cv3_converter.cpp.s
+
+src/python_module.o: src/python_module.cpp.o
+.PHONY : src/python_module.o
+
+# target to build an object file
+src/python_module.cpp.o:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/python_module.cpp.o
+.PHONY : src/python_module.cpp.o
+
+src/python_module.i: src/python_module.cpp.i
+.PHONY : src/python_module.i
+
+# target to preprocess a source file
+src/python_module.cpp.i:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/python_module.cpp.i
+.PHONY : src/python_module.cpp.i
+
+src/python_module.s: src/python_module.cpp.s
+.PHONY : src/python_module.s
+
+# target to generate assembly for a file
+src/python_module.cpp.s:
+	$(MAKE) -f CMakeFiles/pbcvt.dir/build.make CMakeFiles/pbcvt.dir/src/python_module.cpp.s
+.PHONY : src/python_module.cpp.s
 
 # Help Target
 help:
@@ -144,12 +233,22 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/strip"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... matmul"
-	@echo "... matmul.o"
-	@echo "... matmul.i"
-	@echo "... matmul.s"
+	@echo "... install"
+	@echo "... list_install_components"
+	@echo "... pbcvt"
+	@echo "... install/local"
+	@echo "... src/pyboost_cv2_converter.o"
+	@echo "... src/pyboost_cv2_converter.i"
+	@echo "... src/pyboost_cv2_converter.s"
+	@echo "... src/pyboost_cv3_converter.o"
+	@echo "... src/pyboost_cv3_converter.i"
+	@echo "... src/pyboost_cv3_converter.s"
+	@echo "... src/python_module.o"
+	@echo "... src/python_module.i"
+	@echo "... src/python_module.s"
 .PHONY : help
 
 

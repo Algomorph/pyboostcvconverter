@@ -1,5 +1,5 @@
 
-#define PY_ARRAY_UNIQUE_SYMBOL reco_ARRAY_API
+#define PY_ARRAY_UNIQUE_SYMBOL pbcvt_ARRAY_API
 #include <boost/python.hpp>
 #include <pyboostcvconverter/pyboostcvconverter.hpp>
 namespace pbcvt {
