@@ -6,9 +6,9 @@
  *   Copyright: 2015 Gregory Kramida
  */
 #define NO_IMPORT_ARRAY
-#define PY_ARRAY_UNIQUE_SYMBOL reco_ARRAY_API
+#define PY_ARRAY_UNIQUE_SYMBOL pbcvt_ARRAY_API
 #include <pyboostcvconverter/pyboostcvconverter.hpp>
-#if CV_VERSION_MAJOR == 2
+#if CV_VERSION_EPOCH == 2 || (!defined CV_VERSION_EPOCH && CV_VERSION_MAJOR == 2)
 namespace pbcvt{
 using namespace cv;
 

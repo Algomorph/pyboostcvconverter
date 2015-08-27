@@ -40,6 +40,8 @@ qrc_*
 
 ## CMake Generated files
 
+Makefile.cmake
+CMakeOutput.log
 CMakeCache.txt
 CMakeFiles
 Makefile
