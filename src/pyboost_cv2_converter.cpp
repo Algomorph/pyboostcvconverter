@@ -144,7 +144,7 @@ PyObject* fromMatToNDArray(const Mat& m) {
     return pyObjectFromRefcount(p->refcount);
 }
 
-Mat fromNDArrayToMat(const PyObject* o) {
+Mat fromNDArrayToMat(PyObject* o) {
 	cv::Mat m;
 	if (!PyArray_Check(o)) {
 		failmsg("argument is not a numpy array");

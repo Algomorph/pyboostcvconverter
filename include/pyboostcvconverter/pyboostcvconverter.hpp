@@ -67,7 +67,7 @@ class NumpyAllocator;
 //===================   STANDALONE CONVERTER FUNCTIONS     =========================================
 
 PyObject* fromMatToNDArray(const Mat& m);
-Mat fromNDArrayToMat(const PyObject* o);
+Mat fromNDArrayToMat(PyObject* o);
 
 //===================   BOOST CONVERTERS     =======================================================
 
