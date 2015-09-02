@@ -406,7 +406,7 @@ CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
 CMAKE_CACHE_MINOR_VERSION:INTERNAL=2
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=1
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
 CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.
@@ -621,7 +621,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_CUDA:INTERNAL=[/usr][/usr/bin/nvcc][/usr/include][/
 //Details about finding PythonInterp
 FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/bin/python3.4][v3.4.3(3.4)]
 //Details about finding PythonLibs
-FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython3.4m.so][/usr/include/python3.4m][v(3.4.3)]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython3.4m.so][/usr/include/python3.4m][v3.4.3(3.4.3)]
 //ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_DBG
 OpenCV_3RDPARTY_LIB_DIR_DBG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OpenCV_3RDPARTY_LIB_DIR_OPT
