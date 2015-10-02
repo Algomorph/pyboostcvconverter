@@ -9,7 +9,7 @@
 #define PY_ARRAY_UNIQUE_SYMBOL pbcvt_ARRAY_API
 #include <pyboostcvconverter/pyboostcvconverter.hpp>
 #if CV_VERSION_MAJOR == 3
-namespace pbcvt{
+namespace pbcvt {
 using namespace cv;
 //===================   ERROR HANDLING     =========================================================
 
@@ -279,15 +279,17 @@ Mat fromNDArrayToMat(PyObject* o) {
 PyObject* matToNDArrayBoostConverter::convert(Mat const& m) {
 	if (!m.data)
 		Py_RETURN_NONE;
-	Mat *p = (Mat*) &m;
-	Mat temp;
-	if (!p->u || p->allocator != &g_numpyAllocator) {
+		Mat temp,
+	*p = (Mat*) &m;
+	if (!p->u || p->allocator != &g_numpyAllocator)
+			{
 		temp.allocator = &g_numpyAllocator;
 		ERRWRAP2(m.copyTo(temp));
 		p = &temp;
 	}
-	PyObject* o = (PyObject*) p->data;
-	return boost::python::incref(o);
+	PyObject* o = (PyObject*) p->u->userdata;
+	Py_INCREF(o);
+	return o;
 }
 
 matFromNDArrayBoostConverter::matFromNDArrayBoostConverter() {
@@ -413,13 +415,13 @@ void matFromNDArrayBoostConverter::construct(PyObject* object,
 	if (!needcopy) {
 		Py_INCREF(object);
 	}
+
 	cv::Mat* m = new (storage) cv::Mat(ndims, size, type, PyArray_DATA(oarr), step);
 	m->u = g_numpyAllocator.allocate(object, ndims, size, type, step);
 	m->allocator = &g_numpyAllocator;
 	m->addref();
 	data->convertible = storage;
 }
-
 
 }			//end namespace pbcvt
 #endif
