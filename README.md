@@ -38,8 +38,8 @@ a = numpy.array([[1., 2., 3.]])
 b = numpy.array([[1.],
                  [2.],
                  [3.]])
-print(pbcvt.mul(a, b)) # should print [[14.]]
-print(pbcvt.mul2(a, b)) # should also print [[14.]]
+print(pbcvt.dot(a, b)) # should print [[14.]]
+print(pbcvt.dot2(a, b)) # should also print [[14.]]
 ```
 Here is the C++ code for the sample pbcvt.so module (python_module.cpp):
 
