@@ -27,8 +27,7 @@ Compiling & Trying Out Sample Code
 
 Usage
 ----------------
-(Update) Note that now, the header and the two source files need to be included in your project.
-Here is a usage sample based on [Yati Sagade's sample](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst):
+The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended.
 
 ```python
 
@@ -42,15 +41,17 @@ b = numpy.array([[1.],
 print(pbcvt.mul(a, b)) # should print [[14.]]
 print(pbcvt.mul2(a, b)) # should also print [[14.]]
 ```
-Here is the C++ code for the sample pbcvt.so module:
+Here is the C++ code for the sample pbcvt.so module (python_module.cpp):
 
 ```c++
 #define PY_ARRAY_UNIQUE_SYMBOL pbcvt_ARRAY_API
+
 #include <boost/python.hpp>
 #include <pyboostcvconverter/pyboostcvconverter.hpp>
+
 namespace pbcvt {
 
-using namespace boost::python;
+    using namespace boost::python;
 
 /**
  * Example function. Basic inner matrix product using explicit matrix conversion.
@@ -58,22 +59,22 @@ using namespace boost::python;
  * @param right right-hand matrix operand (NdArray required)
  * @return an NdArray representing the dot-product of the left and right operands
  */
-PyObject* dot(PyObject *left, PyObject *right) {
+    PyObject *dot(PyObject *left, PyObject *right) {
 
-	cv::Mat leftMat, rightMat;
-	leftMat = pbcvt::fromNDArrayToMat(left);
-	rightMat = pbcvt::fromNDArrayToMat(right);
-	auto c1 = leftMat.cols, r2 = rightMat.rows;
-	// Check that the 2-D matrices can be legally multiplied.
-	if (c1 != r2){
-		PyErr_SetString(PyExc_TypeError,
-				"Incompatible sizes for matrix multiplication.");
-		throw_error_already_set();
-	}
-	cv::Mat result = leftMat * rightMat;
-	PyObject* ret = pbcvt::fromMatToNDArray(result);
-	return ret;
-}
+        cv::Mat leftMat, rightMat;
+        leftMat = pbcvt::fromNDArrayToMat(left);
+        rightMat = pbcvt::fromNDArrayToMat(right);
+        auto c1 = leftMat.cols, r2 = rightMat.rows;
+        // Check that the 2-D matrices can be legally multiplied.
+        if (c1 != r2) {
+            PyErr_SetString(PyExc_TypeError,
+                            "Incompatible sizes for matrix multiplication.");
+            throw_error_already_set();
+        }
+        cv::Mat result = leftMat * rightMat;
+        PyObject *ret = pbcvt::fromMatToNDArray(result);
+        return ret;
+    }
 
 //This example uses Mat directly, but we won't need to worry about the conversion
 /**
@@ -82,37 +83,47 @@ PyObject* dot(PyObject *left, PyObject *right) {
  * @param rightMat right-hand matrix operand
  * @return an NdArray representing the dot-product of the left and right operands
  */
-cv::Mat dot2(cv::Mat leftMat, cv::Mat rightMat) {
-	auto c1 = leftMat.cols, r2 = rightMat.rows;
-	if (c1 != r2) {
-		PyErr_SetString(PyExc_TypeError,
-				"Incompatible sizes for matrix multiplication.");
-		throw_error_already_set();
-	}
-	cv::Mat result = leftMat * rightMat;
+    cv::Mat dot2(cv::Mat leftMat, cv::Mat rightMat) {
+        auto c1 = leftMat.cols, r2 = rightMat.rows;
+        if (c1 != r2) {
+            PyErr_SetString(PyExc_TypeError,
+                            "Incompatible sizes for matrix multiplication.");
+            throw_error_already_set();
+        }
+        cv::Mat result = leftMat * rightMat;
 
-	return result;
-}
+        return result;
+    }
 
-static void init_ar(){
-	Py_Initialize();
 
-	import_array();
-}
+#if (PY_VERSION_HEX >= 0x03000000)
 
-BOOST_PYTHON_MODULE(pbcvt){
-	//using namespace XM;
-	init_ar();
+    static void *init_ar() {
+#else
+        static void init_ar(){
+#endif
+        Py_Initialize();
 
-	//initialize converters
-	to_python_converter<cv::Mat,
-	pbcvt::matToNDArrayBoostConverter>();
-	pbcvt::matFromNDArrayBoostConverter();
+        import_array();
+        return NUMPY_IMPORT_ARRAY_RETVAL;
+    }
 
-	//expose module-level functions
-	def("dot", dot);
-	def("dot2", dot2);
-}
+    BOOST_PYTHON_MODULE (pbcvt) {
+        //using namespace XM;
+        init_ar();
+
+        //initialize converters
+        to_python_converter<cv::Mat,
+                pbcvt::matToNDArrayBoostConverter>();
+        pbcvt::matFromNDArrayBoostConverter();
+
+        //expose module-level functions
+        def("dot", dot);
+        def("dot2", dot2);
+
+    }
 
 } //end namespace pbcvt
 ```
+
+Original code is based on [yati sagade's sample](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst) but has since been heavily revised and upgraded.
