@@ -34,17 +34,16 @@ if(${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
     SET(PYTHON_LIBRARIES ${PYTHON2_LIBRARY})
     SET(PYTHON_EXECUTABLE ${PYTHON2_EXECUTABLE})
     SET(PYTHON_PACKAGES_PATH ${PYTHON2_PACKAGES_PATH})
+		SET(ARCHIVE_OUTPUT_NAME pbcvt_py2)
 else()
     SET(PYTHON_INCLUDE_DIRS ${PYTHON3_INCLUDE_DIR} ${PYTHON3_INCLUDE_DIR2} ${PYTHON3_NUMPY_INCLUDE_DIRS})
     SET(PYTHON_LIBRARIES ${PYTHON3_LIBRARY})
     SET(PYTHON_EXECUTABLE ${PYTHON3_EXECUTABLE})
     SET(PYTHON_PACKAGES_PATH ${PYTHON3_PACKAGES_PATH})
+		SET(ARCHIVE_OUTPUT_NAME pbcvt_py3)
 endif() 
 
-
-
 file(GLOB project_sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-message(STATUS "${project_sources}")
 
 add_library(${PROJECT_NAME} SHARED ${project_sources} ${CMAKE_CURRENT_SOURCE_DIR}/include/pyboostcvconverter/pyboostcvconverter.hpp)
 target_include_directories(${PROJECT_NAME} PUBLIC 
@@ -62,13 +61,14 @@ target_link_libraries(${PROJECT_NAME}
 
 #---------------------------   INSTALLATION    -----------------------------------------------------
 #-get proper extension for python binary shared object on this platform
-execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print distutils.sysconfig.get_config_var('SO')"
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('SO'))"
                 RESULT_VARIABLE PYTHON_${PROJECT_NAME}_PY_PROCESS
                 OUTPUT_VARIABLE ${PROJECT_NAME}_PY_SUFFIX
                 OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-                      PREFIX ""
+											ARCHIVE_OUTPUT_NAME ${ARCHIVE_OUTPUT_NAME}  # prevent name conflict for python2/3 outputs
+											PREFIX ""
                       OUTPUT_NAME pbcvt
                       SUFFIX ${${PROJECT_NAME}_PY_SUFFIX})
 
