@@ -16,7 +16,7 @@ The code has been tested for memory leaks. If you still find any errors, let me 
 Compiling & Trying Out Sample Code
 ----------------------
 1. Install CMake and/or CMake-gui (http://www.cmake.org/download/, ```sudo apt-get install cmake cmake-gui``` on Ubuntu/Debian)
-2. Run CMake and/or CMake-gui with the git repository as the source and a build folder of your choice (in-source builds supported.) Choose desired generator, configure, and generate.
+2. Run CMake and/or CMake-gui with the git repository as the source and a build folder of your choice (in-source builds supported.) Choose desired generator, configure, and generate. Remember to set PYTHON_DESIRED_VERSION to 2.X for python 2 and 3.X for python 3.
 3. Build (run ```make``` on *nix systems with gcc/eclipse CDT generator from within the build folder)
 4. On *nix systems, ```make install``` run with root privileges will install the compiled pbcvt.so file. Alternatively, you can manually copy it to the pythonXX/dist-packages directory (replace XX with desired python version).
 5. Run python interpreter of your choice, issue 
