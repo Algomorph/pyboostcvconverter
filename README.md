@@ -43,7 +43,9 @@ SET(ARCHIVE_OUTPUT_NAME pbcvt_py2)
 
 ```c++
 
+#ifndef PY_ARRAY_UNIQUE_SYMBOL
 #define PY_ARRAY_UNIQUE_SYMBOL pbcvt_ARRAY_API
+#endif
 
 #include <boost/python.hpp>
 #include <pyboostcvconverter/pyboostcvconverter.hpp>
