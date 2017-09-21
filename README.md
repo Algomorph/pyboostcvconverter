@@ -4,7 +4,7 @@ Integration
 1.  Add pyboostcvconverter to package.xml
 2.  Add ```pyboostcvconverter/cmake/DetectPython.cmake``` to your module's ```cmake/Modules/``` folder
 3.  Update CMakeLists.txt
-    1.
+  1.
 ```
 find_package(catkin REQUIRED COMPONENTS
   ...  
@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   ...
 )
 ```
-    2.  Add python setup
+  2.  Add python setup
 ```
 ####################
 #====== PYTHON Interface
@@ -37,8 +37,8 @@ SET(PYTHON_EXECUTABLE ${PYTHON2_EXECUTABLE})
 SET(PYTHON_PACKAGES_PATH ${PYTHON2_PACKAGES_PATH})
 SET(ARCHIVE_OUTPUT_NAME pbcvt_py2)
 ```
-    3. create your library with name ```X```, link and add dependencies
-    4. Make sure in your c++ boost code the name of your python module is ```libX``` and that you 
+  3. create your library with name ```X```, link and add dependencies
+4. Make sure in your c++ boost code the name of your python module is ```libX``` and that you 
 
 ```c++
 
