@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project("pbcvt")
+project("pyboostcvconverter")
 
 #----------------------------CMAKE & GLOBAL PROPERTIES-------------------------#
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -19,7 +19,7 @@ endif ()
 # PYTHON option
 
 set(PYTHON_OPTIONS "2.X" "3.X")
-set(PYTHON_DESIRED_VERSION "3.X" CACHE STRING "Choose which python version to use, options are: ${PYTHON_OPTIONS}.")
+set(PYTHON_DESIRED_VERSION "2.X" CACHE STRING "Choose which python version to use, options are: ${PYTHON_OPTIONS}.")
 set_property(CACHE PYTHON_DESIRED_VERSION PROPERTY STRINGS ${PYTHON_OPTIONS})
 
 
@@ -33,7 +33,6 @@ else ()
     set(Python_ADDITIONAL_VERSIONS ${PYTHON3_VERSION_MAJOR}.${PYTHON3_VERSION_MINOR})
     find_package(Boost COMPONENTS python-py${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
 endif ()
-
 
 #========pick python stuff========================================
 if (${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
@@ -66,35 +65,7 @@ target_link_libraries(${PROJECT_NAME}
         ${PYTHON_LIBRARIES}
         )
 
-#---------------------------   INSTALLATION    -----------------------------------------------------
-#-get proper extension for python binary shared object on this platform
-execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('SO'))"
-        RESULT_VARIABLE PYTHON_${PROJECT_NAME}_PY_PROCESS
-        OUTPUT_VARIABLE ${PROJECT_NAME}_PY_SUFFIX
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_NAME ${ARCHIVE_OUTPUT_NAME}  # prevent name conflict for python2/3 outputs
-        PREFIX ""
-        OUTPUT_NAME pbcvt
-        SUFFIX ${${PROJECT_NAME}_PY_SUFFIX})
-
-if (MSVC AND NOT PYTHON_DEBUG_LIBRARIES)
-    set(PYTHON_INSTALL_CONFIGURATIONS CONFIGURATIONS Release)
-else ()
-    set(PYTHON_INSTALL_CONFIGURATIONS "")
-endif ()
-
-if (WIN32)
-    set(PYTHON_INSTALL_ARCHIVE "")
-else ()
-    set(PYTHON_INSTALL_ARCHIVE ARCHIVE DESTINATION ${PYTHON_PACKAGES_PATH} COMPONENT python)
-endif ()
-
-install(TARGETS ${PROJECT_NAME}
-        ${PYTHON_INSTALL_CONFIGURATIONS}
-        RUNTIME DESTINATION ${PYTHON_PACKAGES_PATH} COMPONENT python
-        LIBRARY DESTINATION ${PYTHON_PACKAGES_PATH} COMPONENT python
-        ${PYTHON_INSTALL_ARCHIVE}
-        )
-
+catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES ${PROJECT_NAME}
+)

@@ -1,3 +1,79 @@
+Integration
+==================
+
+1.  Add pyboostcvconverter to package.xml
+2.  Add ```pyboostcvconverter/cmake/DetectPython.cmake``` to your module's ```cmake/Modules/``` folder
+3.  Update CMakeLists.txt
+    1.
+```
+find_package(catkin REQUIRED COMPONENTS
+  ...  
+  pyboostcvconverter
+  ...
+)
+```
+    2.  Add python setup
+```
+####################
+#====== PYTHON Interface
+####################
+
+set(PYTHON_OPTIONS "2.X" "3.X")
+set(PYTHON_DESIRED_VERSION "2.X" CACHE STRING "Choose which python version to use, options are: ${PYTHON_OPTIONS}.")
+set_property(CACHE PYTHON_DESIRED_VERSION PROPERTY STRINGS ${PYTHON_OPTIONS})
+
+#=============== Find Packages 
+find_package(OpenCV COMPONENTS core REQUIRED)
+include("DetectPython")
+
+set(Python_ADDITIONAL_VERSIONS ${PYTHON2_VERSION_MAJOR}.${PYTHON2_VERSION_MINOR})
+find_package(Boost COMPONENTS python-py${PYTHON2_VERSION_MAJOR}${PYTHON2_VERSION_MINOR} REQUIRED)
+
+#========pick python stuff========================================
+
+SET(PYTHON_INCLUDE_DIRS ${PYTHON2_INCLUDE_DIR} ${PYTHON2_INCLUDE_DIR2} ${PYTHON2_NUMPY_INCLUDE_DIRS})
+SET(PYTHON_LIBRARIES ${PYTHON2_LIBRARY})
+SET(PYTHON_EXECUTABLE ${PYTHON2_EXECUTABLE})
+SET(PYTHON_PACKAGES_PATH ${PYTHON2_PACKAGES_PATH})
+SET(ARCHIVE_OUTPUT_NAME pbcvt_py2)
+```
+    3. create your library with name ```X```, link and add dependencies
+    4. Make sure in your c++ boost code the name of your python module is ```libX``` and that you 
+
+```c++
+
+#define PY_ARRAY_UNIQUE_SYMBOL pbcvt_ARRAY_API
+
+#include <boost/python.hpp>
+#include <pyboostcvconverter/pyboostcvconverter.hpp>
+
+using namespace boost::python;
+
+... your code ...
+
+static void init_ar(){
+    Py_Initialize();
+
+    import_array();
+    return NUMPY_IMPORT_ARRAY_RETVAL;
+}
+
+BOOST_PYTHON_MODULE (libmylibname) {
+    //using namespace XM;
+    init_ar();
+
+    //initialize converters
+    to_python_converter<cv::Mat,
+            pbcvt::matToNDArrayBoostConverter>();
+    pbcvt::matFromNDArrayBoostConverter();
+
+    //expose module-level functions
+    def("myfn", myfn);
+
+}
+
+```
+
 pyboostcvconverter
 ==================
 
