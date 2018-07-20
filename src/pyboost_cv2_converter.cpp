@@ -383,10 +383,6 @@ void matFromNDArrayBoostConverter::construct(PyObject* object,
 	cv::Mat* m = new (storage) cv::Mat(ndims, size, type, PyArray_DATA(oarr), step);
 	if (m->data){
 		m->refcount = refcountFromPyObject(object);
-		if (!needcopy){
-			m->addref(); // protect the original numpy array from deallocation
-						 // (since Mat destructor will decrement the reference counter)
-		}
 	};
 
 	m->allocator = &g_numpyAllocator;

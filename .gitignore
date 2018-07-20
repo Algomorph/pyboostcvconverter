@@ -268,3 +268,6 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+.idea/
+cmake-build-debug/
+cmake-build-release/
