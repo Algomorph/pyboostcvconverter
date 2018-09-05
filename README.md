@@ -1,12 +1,14 @@
-pyboostcvconverter
+PBCVT (Python-Boost-OpenCV Converter)
 ==================
 
-This is minimalist C++ code for porting C++ functions/classes using OpenCV Mat as arguments directly (w/o explicit conversions) to python. Originally inspired by [code by Yati Sagade](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst).
+This is minimalist C++ sample code for porting C++ functions/classes using OpenCV Mat as arguments directly (w/o explicit conversions) to python. It was originally inspired by [code by Yati Sagade](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst). 
+
+It is mainly intended to be used as boilerplate code for your own C++ libraries which use OpenCV and which you'd like to call from Python code or a Python shell. Directly linking the generated library to other C++ code statically or dynamically is _not_ supported / has _not_ been tested. 
 
 Compatibility
 -----------------
-(Update) This code is now compatible OpenCV 2.X and 3.X. 
-(Update) This code now supports Python 2.7 and ~~experimentally~~ Python 3.X. You can pick one by setting PYTHON_DESIRED_VERSION to 3.X or 2.X in CMake.
+This code is compatible with OpenCV 2.X and 3.X. 
+This code supports Python 2.7 and Python 3.X. You can pick one by setting PYTHON_DESIRED_VERSION to 3.X or 2.X in CMake.
 
 Disclaimer
 -----------------

@@ -23,9 +23,18 @@ set(PYTHON_DESIRED_VERSION "3.X" CACHE STRING "Choose which python version to us
 set_property(CACHE PYTHON_DESIRED_VERSION PROPERTY STRINGS ${PYTHON_OPTIONS})
 
 
-#=============== Find Packages 
+#=============== Find Packages ====================================
+## OpenCV
 find_package(OpenCV COMPONENTS core REQUIRED)
+## Python
 include("DetectPython")
+## Boost
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    # Provisions for typical Boost compiled on Windows
+    # Most commonly, Boost libraries are compiled statically on windows (change as necesssary)
+    set(Boost_USE_STATIC_LIBS TRUE)
+    set(Boost_USE_STATIC_RUNTIME OFF)
+endif()
 if (${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
     set(Python_ADDITIONAL_VERSIONS ${PYTHON2_VERSION_MAJOR}.${PYTHON2_VERSION_MINOR})
     find_package(Boost COMPONENTS python-py${PYTHON2_VERSION_MAJOR}${PYTHON2_VERSION_MINOR} REQUIRED)
@@ -33,6 +42,11 @@ else ()
     set(Python_ADDITIONAL_VERSIONS ${PYTHON3_VERSION_MAJOR}.${PYTHON3_VERSION_MINOR})
     find_package(Boost COMPONENTS python-py${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
 endif ()
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    # Provisions for typical Boost compiled on Windows
+    # Unless some extra compile options are used on Windows, the libraries won't have prefixes (change as necesssary)
+    target_compile_definitions(${targetname} PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_NO_DEPRECATED)
+endif()
 
 
 #========pick python stuff========================================
