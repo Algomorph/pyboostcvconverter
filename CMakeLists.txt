@@ -42,11 +42,7 @@ else ()
     set(Python_ADDITIONAL_VERSIONS ${PYTHON3_VERSION_MAJOR}.${PYTHON3_VERSION_MINOR})
     find_package(Boost COMPONENTS python-py${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
 endif ()
-if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-    # Provisions for typical Boost compiled on Windows
-    # Unless some extra compile options are used on Windows, the libraries won't have prefixes (change as necesssary)
-    target_compile_definitions(${targetname} PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_NO_DEPRECATED)
-endif()
+
 
 
 #========pick python stuff========================================
@@ -80,6 +76,12 @@ target_link_libraries(${PROJECT_NAME}
         ${PYTHON_LIBRARIES}
         )
 
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    # Provisions for typical Boost compiled on Windows
+    # Unless some extra compile options are used on Windows, the libraries won't have prefixes (change as necesssary)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_NO_DEPRECATED)
+endif()
+
 #---------------------------   INSTALLATION    -----------------------------------------------------
 #-get proper extension for python binary shared object on this platform
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('SO'))"
@@ -92,6 +94,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
         PREFIX ""
         OUTPUT_NAME pbcvt
         SUFFIX ${${PROJECT_NAME}_PY_SUFFIX})
+
+
 
 if (MSVC AND NOT PYTHON_DEBUG_LIBRARIES)
     set(PYTHON_INSTALL_CONFIGURATIONS CONFIGURATIONS Release)
