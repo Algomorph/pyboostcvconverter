@@ -142,4 +142,4 @@ When building on windows, please make sure to go over the following checklist.
   
 Credits
 ----------------
-Original code is based on [yati sagade's sample](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst) but has since been heavily revised and upgraded.
+Original code was inspired by [yati sagade's sample](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst).
