@@ -5,6 +5,7 @@ project("pbcvt")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 ###============= C++11 support====================================
+if(${CMAKE_VERSION} VERSION_LESS "3.1")
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
@@ -15,6 +16,10 @@ elseif (COMPILER_SUPPORTS_CXX0X)
 else ()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif ()
+else()
+	set(CMAKE_CXX_STANDARD 11)
+	set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 #=================================================================
 # PYTHON option
 
@@ -34,13 +39,16 @@ if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
     # Most commonly, Boost libraries are compiled statically on windows (change as necesssary)
     set(Boost_USE_STATIC_LIBS TRUE)
     set(Boost_USE_STATIC_RUNTIME OFF)
+	set(Boost_USE_MULTITHREADED ON)
+	set(Boost_USE_DEBUG_RUNTIME ON)
+	set(Boost_USE_DEBUG_PYTHON OFF)
 endif()
 if (${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
     set(Python_ADDITIONAL_VERSIONS ${PYTHON2_VERSION_MAJOR}.${PYTHON2_VERSION_MINOR})
-    find_package(Boost COMPONENTS python-py${PYTHON2_VERSION_MAJOR}${PYTHON2_VERSION_MINOR} REQUIRED)
+    find_package(Boost COMPONENTS python${PYTHON2_VERSION_MAJOR}${PYTHON2_VERSION_MINOR} REQUIRED)
 else ()
     set(Python_ADDITIONAL_VERSIONS ${PYTHON3_VERSION_MAJOR}.${PYTHON3_VERSION_MINOR})
-    find_package(Boost COMPONENTS python-py${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
+    find_package(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
 endif ()
 
 
@@ -70,6 +78,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ${PYTHON_INCLUDE_DIRS}
         )
 
+message(STATUS ${OpenCV_LIBRARIES})
+		
 target_link_libraries(${PROJECT_NAME}
         ${Boost_LIBRARIES}
         ${OpenCV_LIBRARIES}
@@ -84,7 +94,7 @@ endif()
 
 #---------------------------   INSTALLATION    -----------------------------------------------------
 #-get proper extension for python binary shared object on this platform
-execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('SO'))"
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('EXT_SUFFIX'))"
         RESULT_VARIABLE PYTHON_${PROJECT_NAME}_PY_PROCESS
         OUTPUT_VARIABLE ${PROJECT_NAME}_PY_SUFFIX
         OUTPUT_STRIP_TRAILING_WHITESPACE)
