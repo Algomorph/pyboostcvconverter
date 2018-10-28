@@ -22,19 +22,7 @@ Compiling & Trying Out Sample Code
 3. Build (run ```make``` on *nix systems with gcc/eclipse CDT generator from within the build folder)
 4. On *nix systems, ```make install``` run with root privileges will install the compiled library file. Alternatively, you can manually copy it to the pythonXX/dist-packages directory (replace XX with desired python version). On Windows / MSVC, build the INSTALL project.
 5. Run python interpreter of your choice, issue the following commands:
-  ```
-  import pbcvt; import numpy as np
-  a = np.array([[1.,2.],[3.,4.]]); b = np.array([[2.,2.],[4.,4.]])
-  pbcvt.dot(a,b)
-  pbcvt.dot2(a,b)
-  ```
-
-Usage
-----------------
-The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended. **Windows users: please see note after the examples below.** 
-
 ```python
-
 import numpy
 import pbcvt # your module, also the name of your compiled dynamic library file w/o the extension
 
@@ -45,7 +33,12 @@ b = numpy.array([[1.],
 print(pbcvt.dot(a, b)) # should print [[14.]]
 print(pbcvt.dot2(a, b)) # should also print [[14.]]
 ```
-Here is the C++ code for the sample pbcvt.so module (python_module.cpp):
+
+Usage
+----------------
+The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended. **Windows users: please see note after the examples below.** 
+
+Here is (some of the) C++ code in the sample pbcvt.so module (python_module.cpp):
 
 ```c++
 #define PY_ARRAY_UNIQUE_SYMBOL pbcvt_ARRAY_API
