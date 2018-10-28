@@ -139,7 +139,7 @@ find_package(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MI
 ```
 to 
 ```CMake
-find_package-py(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
+find_package(Boost COMPONENTS python-py${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
 ```
 To add the missing "-py" suffix back in. Do it for python 2 if you're using that.
 
