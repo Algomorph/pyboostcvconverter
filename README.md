@@ -19,8 +19,8 @@ Compiling & Trying Out Sample Code
 ----------------------
 1. Install CMake and/or CMake-gui (http://www.cmake.org/download/, ```sudo apt-get install cmake cmake-gui``` on Ubuntu/Debian)
 2. Run CMake and/or CMake-gui with the git repository as the source and a build folder of your choice (in-source builds supported.) Choose desired generator, configure, and generate. Remember to set PYTHON_DESIRED_VERSION to 2.X for python 2 and 3.X for python 3.
-3. Build (run ```make``` on *nix systems with gcc/eclipse CDT generator from within the build folder)
-4. On *nix systems, ```make install``` run with root privileges will install the compiled library file. Alternatively, you can manually copy it to the pythonXX/dist-packages directory (replace XX with desired python version). On Windows / MSVC, build the INSTALL project.
+3. Build (run the appropriate command ```make``` or ```ninja``` depending on your generator, or issue "Build All" on Windows+MSVC)
+4. On *nix systems, ```make install``` run with root privileges will install the compiled library file. Alternatively, you can manually copy it to the pythonXX/dist-packages directory (replace XX with desired python version). On Windows+MSVC, build the INSTALL project.
 5. Run python interpreter of your choice, issue the following commands:
 ```python
 import numpy
@@ -36,7 +36,7 @@ print(pbcvt.dot2(a, b)) # should also print [[14.]]
 
 Usage
 ----------------
-The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended. **Windows users: please see note after the examples below.** 
+The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended. **Windows users: please see note after the examples below.** **Troubleshooting CMake issues for older boost: also see note at the end.**
 
 Here is (some of the) C++ code in the sample pbcvt.so module (python_module.cpp):
 
@@ -133,8 +133,18 @@ When building on windows, please make sure to go over the following checklist.
 
 **Troubleshooting note on python37_d.lib**: I am still at war with Windows on having the Debug configuration done 100% correctly. You might still need it for such cases as, for instance, you have C++ unit tests which test your library and you want to debug through the unit test case. It *is* possible to do it right now, but there is an issue that sometimes requires a work-around. I got it to work by (1) installing the debug version of python through the official installer and (2) manually linking to the non-debug library in the debug project configuration within MSVC after the smake generation.
 
+**Could not find the following static Boost libraries: boost_python37**: before I integrate Hunter, please simply modify lines of the form
+```CMake
+find_package(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
+```
+to 
+```CMake
+find_package-py(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
+```
+To add the missing "-py" suffix back in. Do it for python 2 if you're using that.
+
 **Friendly reminder**: don't forget to build the INSTALL project in MSVC before trying to import your library in python.
-  
+    
 Credits
 ----------------
 Original code was inspired by [Yati Sagade's example](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst).
