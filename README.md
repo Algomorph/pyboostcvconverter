@@ -29,7 +29,7 @@ Compiling & Trying Out Sample Code
 
 Usage
 ----------------
-The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended.
+The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended. **Windows users: please see note after the examples below.** 
 
 ```python
 
@@ -127,5 +127,19 @@ namespace pbcvt {
 
 } //end namespace pbcvt
 ```
+Notes for Windows Usage / Known Problems / Troubleshooting
+----------------
+When building on windows, please make sure to go over the following checklist.
+- You have environment variable OpenCV_DIR set to the location of OpenCVModules.cmake file, e.g. ```C:\opencv\build\x64\vc15\lib``` in order for CMake to find OpenCV right away. "vc15" corresponds to the VisualStudio 2017, "vc14" to VS 2015, choose the one that matches your version.
+- You have the directory containing opencv_world<your OpenCV version>.dll, e.g. C:\opencv\build\x64\vc15\bin, in your Path environment variable.
+- You have boost properly built or downloaded as *static libraries* with *static runtime off*. A dynamic build would produce binaries such as boost_python37-vc141-mt-x64-1_68.lib and boost_python37-vc141-mt-x64-1_68.dll (**not what you need, notice the absense of the 'lib' prefix**), a static build with static runtime would produce files such as libboost_python37-vc141-mt-s-x64-1_68.lib (**not what you need, notice the 's' suffix**). What you need are files in the form: "libboost_python37-vc141-mt-x64-1_68.lib". If you're building boost from scratch, this command worked for me with Boost 1.68, 64-bit, Visual Studio 2017: ```b2 toolset=msvc-14.1 release debug runtime-link=shared link=static --build-type=complete --abbreviate-paths architecture=x86 address-model=64 install -j4```.
+- Your boost directory is structured as follows: <your choice of Boost_DIR> which contains "lib" and "include" folders inside it. The include directory should have a "boost" subdirectory with all the headers, *not boost-1_68/boost* as is done by the build automatically. The path that you choose for Boost_DIR should *also* be in your environment variables.
+- The memory address model / architecture (64 bit vs 32 bit, "x86_64" vs "x86") for all your binaries agree, i.e. your python installation needs to be a 64-bit one if your boost libraries have the "x64" suffix, likewise for your OpenCV, and finally for your choice of generator (i.e. Visual Studio ... Win64 for 64-bit) in CMake.
 
+**Troubleshooting Note On python37_d.lib**: I am still at war with Windows on having the Debug configuration done 100% correctly. You might still need it for such cases as, for instance, you have C++ unit tests which test your library and you want to debug through the unit test case. It *is* possible to do it right now, but there is an issue that sometimes requires a work-around. I got it to work by (1) installing the debug version of python through the official installer and (2) manually linking to the non-debug library in the debug project configuration within MSVC after the smake generation.
+
+**Friendly reminder**: don't forget to build the INSTALL project in MSVC before trying to import your library in python.
+  
+Credits
+----------------
 Original code is based on [yati sagade's sample](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst) but has since been heavily revised and upgraded.
