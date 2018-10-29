@@ -59,11 +59,11 @@ function(find_python preferred_version min_version library_env include_dir_env
          debug_library include_path include_dir include_dir2 packages_path
          numpy_include_dirs numpy_version)
 if(NOT ${found})
-  if(" ${executable}" STREQUAL " PYTHON_EXECUTABLE")
-    set(__update_python_vars 0)
-  else()
+#  if(" ${executable}" STREQUAL " PYTHON_EXECUTABLE")
+#    set(__update_python_vars 0)
+#  else()
     set(__update_python_vars 1)
-  endif()
+#  endif()
 
   check_environment_variables(${executable})
   if(${executable})
@@ -256,7 +256,6 @@ if(NOT ${found})
                           RESULT_VARIABLE _numpy_process
                           OUTPUT_VARIABLE _numpy_include_dirs
                           OUTPUT_STRIP_TRAILING_WHITESPACE)
-
           if(NOT _numpy_process EQUAL 0)
               unset(_numpy_include_dirs)
           endif()
@@ -300,11 +299,7 @@ if(NOT ${found})
 endif()
 endfunction(find_python)
 
-if(OPENCV_PYTHON_SKIP_DETECTION)
-  return()
-endif()
-
-find_python("" "${MIN_VER_PYTHON2}" PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
+find_python(2.7.15 2.7 PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
     PYTHON2INTERP_FOUND PYTHON2_EXECUTABLE PYTHON2_VERSION_STRING
     PYTHON2_VERSION_MAJOR PYTHON2_VERSION_MINOR PYTHON2LIBS_FOUND
     PYTHON2LIBS_VERSION_STRING PYTHON2_LIBRARIES PYTHON2_LIBRARY
@@ -312,8 +307,7 @@ find_python("" "${MIN_VER_PYTHON2}" PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
     PYTHON2_INCLUDE_DIR PYTHON2_INCLUDE_DIR2 PYTHON2_PACKAGES_PATH
     PYTHON2_NUMPY_INCLUDE_DIRS PYTHON2_NUMPY_VERSION)
 
-option(OPENCV_PYTHON3_VERSION "Python3 version" "")
-find_python("${OPENCV_PYTHON3_VERSION}" "${MIN_VER_PYTHON3}" PYTHON3_LIBRARY PYTHON3_INCLUDE_DIR
+find_python(3.6.6 3.4 PYTHON3_LIBRARY PYTHON3_INCLUDE_DIR
     PYTHON3INTERP_FOUND PYTHON3_EXECUTABLE PYTHON3_VERSION_STRING
     PYTHON3_VERSION_MAJOR PYTHON3_VERSION_MINOR PYTHON3LIBS_FOUND
     PYTHON3LIBS_VERSION_STRING PYTHON3_LIBRARIES PYTHON3_LIBRARY
