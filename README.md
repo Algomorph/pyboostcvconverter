@@ -7,7 +7,7 @@ It is mainly intended to be used as boilerplate code for your own C++ libraries 
 
 Compatibility
 -----------------
-This code is compatible with OpenCV 2.X and 3.X. 
+This code is compatible with OpenCV 2.X, 3.X, and 4.X.
 This code supports Python 2.7 and Python 3.X. You can pick one by setting PYTHON_DESIRED_VERSION to 3.X or 2.X in CMake.
 
 Disclaimer
