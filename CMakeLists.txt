@@ -47,10 +47,18 @@ if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
 endif()
 if (${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
     set(Python_ADDITIONAL_VERSIONS ${PYTHON2_VERSION_MAJOR}.${PYTHON2_VERSION_MINOR})
-    find_package(Boost COMPONENTS python${PYTHON2_VERSION_MAJOR}${PYTHON2_VERSION_MINOR} REQUIRED)
+    find_package(Boost COMPONENTS python${PYTHON2_VERSION_MAJOR}${PYTHON2_VERSION_MINOR} QUIET)
+    if(NOT Boost_FOUND)
+       message(STATUS "Trying alternative Boost.Python component name, python-py<version>...")
+	     find_package(Boost COMPONENTS python-py${PYTHON2_VERSION_MAJOR}${PYTHON2_VERSION_MINOR} REQUIRED)
+     endif()
 else ()
     set(Python_ADDITIONAL_VERSIONS ${PYTHON3_VERSION_MAJOR}.${PYTHON3_VERSION_MINOR})
-    find_package(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
+    find_package(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} QUIET)
+    if(NOT Boost_FOUND)
+       message(STATUS "Trying alternative Boost.Python component name, python-py<version>...")
+	     find_package(Boost COMPONENTS python-py${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
+     endif()
 endif ()
 
 
@@ -86,7 +94,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ${OpenCV_INCLUDE_DIRS}
         ${PYTHON_INCLUDE_DIRS}
         )
-		
+
 target_link_libraries(${PROJECT_NAME}
         ${Boost_LIBRARIES}
         ${OpenCV_LIBRARIES}
@@ -132,4 +140,3 @@ install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION ${PYTHON_PACKAGES_PATH} COMPONENT python
         ${PYTHON_INSTALL_ARCHIVE}
         )
-
