@@ -109,10 +109,20 @@ endif()
 
 #---------------------------   INSTALLATION    -----------------------------------------------------
 #-get proper extension for python binary shared object on this platform
-execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('EXT_SUFFIX'))"
+
+set(__python_ext_suffix_var "EXT_SUFFIX")
+if({PYTHON_DESIRED_VERSION} STREQUAL "2.X")
+    set(__python_ext_suffix_var "SO")
+endif()
+
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('${__python_ext_suffix_var}'))"
         RESULT_VARIABLE PYTHON_${PROJECT_NAME}_PY_PROCESS
         OUTPUT_VARIABLE ${PROJECT_NAME}_PY_SUFFIX
         OUTPUT_STRIP_TRAILING_WHITESPACE)
+if(NOT ${PYTHON_${PROJECT_NAME}_PY_PROCESS} EQUAL 0)
+    set(${PROJECT_NAME}_PY_SUFFIX ".so")
+endif()
+
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
         ARCHIVE_OUTPUT_NAME ${ARCHIVE_OUTPUT_NAME}  # prevent name conflict for python2/3 outputs
