@@ -133,16 +133,6 @@ When building on windows, please make sure to go over the following checklist.
 
 **Troubleshooting note on python37_d.lib**: I am still at war with Windows on having the Debug configuration done 100% correctly. You might still need it for such cases as, for instance, you have C++ unit tests which test your library and you want to debug through the unit test case. It *is* possible to do it right now, but there is an issue that sometimes requires a work-around. I got it to work by (1) installing the debug version of python through the official installer and (2) manually linking to the non-debug library in the debug project configuration within MSVC after the smake generation.
 
-**Could not find the following static Boost libraries: boost_python37**: before I integrate Hunter, please simply modify lines of the form
-```CMake
-find_package(Boost COMPONENTS python${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
-```
-to 
-```CMake
-find_package(Boost COMPONENTS python-py${PYTHON3_VERSION_MAJOR}${PYTHON3_VERSION_MINOR} REQUIRED)
-```
-To add the missing "-py" suffix back in. Do it for python 2 if you're using that.
-
 **Friendly reminder**: don't forget to build the INSTALL project in MSVC before trying to import your library in python.
     
 Credits
