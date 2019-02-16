@@ -111,7 +111,7 @@ endif()
 #-get proper extension for python binary shared object on this platform
 
 set(__python_ext_suffix_var "EXT_SUFFIX")
-if({PYTHON_DESIRED_VERSION} STREQUAL "2.X")
+if(${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
     set(__python_ext_suffix_var "SO")
 endif()
 
