@@ -102,7 +102,7 @@ cv::Mat increment_elements_by_one(cv::Mat matrix){
 //NOTE: the argument to the BOOST_PYTHON_MODULE has to correspond with the generated dynamic library file name.
 //TO see how to avoid the "lib" prefix and append a standard python extension file suffix, see how the
 //pbcvt library is handled in the CMakeLists.txt file in the root of the repository.
-BOOST_PYTHON_MODULE (libtest_project) {
+BOOST_PYTHON_MODULE (test_project) {
 	//using namespace XM;
 	init_ar();
 

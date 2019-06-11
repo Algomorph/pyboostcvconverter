@@ -16,7 +16,7 @@
 
 import numpy as np
 import pytest
-import libtest_project as tp
+import test_project as tp
 
 
 def test_dot_vec():
