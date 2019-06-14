@@ -27,7 +27,6 @@ set(PYTHON_OPTIONS "2.X" "3.X")
 set(PYTHON_DESIRED_VERSION "3.X" CACHE STRING "Choose which python version to use, options are: ${PYTHON_OPTIONS}.")
 set_property(CACHE PYTHON_DESIRED_VERSION PROPERTY STRINGS ${PYTHON_OPTIONS})
 
-
 #=============== Find Packages ====================================
 ## OpenCV
 find_package(OpenCV COMPONENTS core REQUIRED)
@@ -71,13 +70,16 @@ if (${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
     set(PYTHON_EXECUTABLE ${PYTHON2_EXECUTABLE})
     set(PYTHON_PACKAGES_PATH ${PYTHON2_PACKAGES_PATH})
     set(ARCHIVE_OUTPUT_NAME pbcvt_py2)
+    set(ARCHIVE_OUTPUT_SUFFIX _py2)
 else ()
+    message(status "HELLO")
     set(PYTHON_INCLUDE_DIRS ${PYTHON3_INCLUDE_DIR} ${PYTHON3_INCLUDE_DIR2} ${PYTHON3_NUMPY_INCLUDE_DIRS})
     set(PYTHON_NUMPY_INCLUDE_DIRS ${PYTHON3_NUMPY_INCLUDE_DIRS})
     set(PYTHON_LIBRARIES ${PYTHON3_LIBRARY})
     set(PYTHON_EXECUTABLE ${PYTHON3_EXECUTABLE})
     set(PYTHON_PACKAGES_PATH ${PYTHON3_PACKAGES_PATH})
     set(ARCHIVE_OUTPUT_NAME pbcvt_py3)
+    set(ARCHIVE_OUTPUT_SUFFIX _py3)
 endif ()
 
 find_package_handle_standard_args(Python DEFAULT_MSG PYTHON_INCLUDE_DIRS PYTHON_NUMPY_INCLUDE_DIRS PYTHON_LIBRARIES PYTHON_EXECUTABLE PYTHON_PACKAGES_PATH)
@@ -87,25 +89,34 @@ endif()
 
 file(GLOB project_sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
-add_library(${PROJECT_NAME} SHARED ${project_sources} ${CMAKE_CURRENT_SOURCE_DIR}/include/pyboostcvconverter/pyboostcvconverter.hpp)
-target_include_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/include"
-        ${Boost_INCLUDE_DIRS}
-        ${OpenCV_INCLUDE_DIRS}
-        ${PYTHON_INCLUDE_DIRS}
-        )
 
-target_link_libraries(${PROJECT_NAME}
-        ${Boost_LIBRARIES}
-        ${OpenCV_LIBRARIES}
-        ${PYTHON_LIBRARIES}
-        )
+macro(pbcvt_add_pbcvt_library target_name STATIC)
+    if(${STATIC})
+        add_library(${target_name} STATIC ${project_sources} ${CMAKE_CURRENT_SOURCE_DIR}/include/pyboostcvconverter/pyboostcvconverter.hpp)
+    else()
+        add_library(${target_name} SHARED ${project_sources} ${CMAKE_CURRENT_SOURCE_DIR}/include/pyboostcvconverter/pyboostcvconverter.hpp)
+    endif()
+    target_include_directories(${target_name}  PUBLIC
+                               "${CMAKE_CURRENT_SOURCE_DIR}/include"
+                               ${Boost_INCLUDE_DIRS}
+                               ${OpenCV_INCLUDE_DIRS}
+                               ${PYTHON_INCLUDE_DIRS}
+                               )
 
-if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-    # Provisions for typical Boost compiled on Windows
-    # Unless some extra compile options are used on Windows, the libraries won't have prefixes (change as necesssary)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_NO_DEPRECATED)
-endif()
+    target_link_libraries(${target_name}
+                          ${Boost_LIBRARIES}
+                          ${OpenCV_LIBRARIES}
+                          ${PYTHON_LIBRARIES}
+                          )
+
+    if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+        # Provisions for typical Boost compiled on Windows
+        # Unless some extra compile options are used on Windows, the libraries won't have prefixes (change as necesssary)
+        target_compile_definitions(${target_name} PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_NO_DEPRECATED)
+    endif()
+endmacro()
+
+pbcvt_add_pbcvt_library(${PROJECT_NAME} OFF)
 
 #---------------------------   INSTALLATION    -----------------------------------------------------
 #-get proper extension for python binary shared object on this platform
@@ -150,3 +161,14 @@ install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION ${PYTHON_PACKAGES_PATH} COMPONENT python
         ${PYTHON_INSTALL_ARCHIVE}
         )
+
+#---------------------------   TEST PROJECT    -----------------------------------------------------
+# Test Project option
+option(BUILD_TEST_PROJECT ON)
+
+
+if (BUILD_TEST_PROJECT)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+    pbcvt_add_pbcvt_library(static_pbcvt ON)
+    add_subdirectory(tests)
+endif()

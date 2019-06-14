@@ -276,3 +276,6 @@ cmake-build-release/
 
 # Common CMake build folders
 build/
+
+# Python Cache
+__pycache__/
