@@ -6,12 +6,12 @@ PBCVT (Python-Boost-OpenCV Converter)
 
 This is minimalist C++ sample code for porting C++ functions/classes using OpenCV Mat as arguments directly (w/o explicit conversions) to python. It was originally inspired by [code by Yati Sagade](https://github.com/yati-sagade/blog-content/blob/master/content/numpy-boost-python-opencv.rst). 
 
-It is mainly intended to be used as boilerplate code for your own C++ libraries which use OpenCV and which you'd like to call from Python code or a Python shell. Directly linking the generated library to other C++ code statically or dynamically is _not_ supported / has _not_ been tested. 
+It is mainly intended to be used as boilerplate code for your own C++ libraries which use OpenCV and which you'd like to call from Python code or a Python shell. ~Directly linking the generated library to other C++ code statically or dynamically is _not_ supported / has _not_ been tested.~ The provided CMake now _also_ demonstrates how to build another library and link a static version of the PBCVT. To do so, pass `-DBUILD_TEST_PROJECT=ON` to cmake or enable the corresponing entry in cmake-gui. For details, see **Usage** below.
 
 Compatibility
 -----------------
 This code is compatible with OpenCV 2.X, 3.X, and 4.X.
-This code supports Python 2.7 and Python 3.X. You can pick one by setting PYTHON_DESIRED_VERSION to 3.X or 2.X in CMake.
+This code supports Python 2.7 and Python 3.X. => You can pick one by passing `-DPYTHON_DESIRED_VERSION=3.X` or `=2.X` to cmake.
 
 Disclaimer
 -----------------
@@ -39,7 +39,11 @@ print(pbcvt.dot2(a, b)) # should also print [[14.]]
 
 Usage
 ----------------
-The header and the two source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate. Linking (statically or dynamically) to the actual example module is possible, but not recommended. **Windows users: please see note after the examples below.** **Troubleshooting CMake issues for older boost: also see note at the end.**
+To use the project as boilerplate, the header and the source files need to be directly included in your project. Use the provided CMake as an example to properly detect your & link python, numpy, and boost, as well as make a proper install target for your project. Use the python_module.cpp for an example of how to organize your own module. All repository sources may serve well as project boilerplate.
+
+To learn how to _link_ your code to the static version of PBCVT, assuming you have built it successfully with `-DBUILD_TEST_PROJECT=ON`, check the code inside `/tests/test_project_source.cpp` and the corresponding `/tests/CMakeLists.txt`. Note: the OpenCV-style installation CMake code is provided for the dynamic `pbcvt` library in the root `CMakeLists.txt` only, not the "test_project" library, but it can easily be adapted for your custom project.
+
+**Windows users: please see note after the examples below.** **Troubleshooting CMake issues for older boost: also see note at the end.**
 
 Here is (some of the) C++ code in the sample pbcvt.so module (python_module.cpp):
 
