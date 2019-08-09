@@ -110,7 +110,7 @@ if(NOT ${found})
         AND NOT DEFINED ${executable}
     )
       if(NOT OPENCV_SKIP_PYTHON_WARNING)
-        message(WARNING "CMake's 'find_host_package(PythonInterp ${__python_package_version})' founds wrong Python version:\n"
+        message(WARNING "CMake's 'find_host_package(PythonInterp ${__python_package_version})' found wrong Python version:\n"
                         "PYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}\n"
                         "PYTHON_VERSION_STRING=${PYTHON_VERSION_STRING}\n"
                         "Consider specify '${executable}' variable via CMake command line or environment variables\n")
