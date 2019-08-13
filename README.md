@@ -18,6 +18,8 @@ Disclaimer
 Certain things in the code might be excessive/unneeded, so if you know something is not needed, please make a pull request with an update. Also, conversion errors aren't handled politically correct (i.e. just generates an empty matrix), please let me know if that bothers you or you'd like to fix that.
 The code has been tested for memory leaks. If you still find any errors, let me know by positing an issue! 
 
+NOTE: PLEASE DO NOT TRY TO USE THE PYTHON API FROM WITHIN A C++ EXECUTABLE AND THEN MAKE AN ISSUE ABOUT IT NOT WORKING. (The all-caps is meant to be an attention grabber, because many people have done this in the past). That is _not_ what this code is for. This code is for using C++ libraries that employ OpenCV from a Python Script / shell.
+
 Compiling & Trying Out Sample Code
 ----------------------
 1. Install CMake and/or CMake-gui (http://www.cmake.org/download/, ```sudo apt-get install cmake cmake-gui``` on Ubuntu/Debian)
