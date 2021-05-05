@@ -1,8 +1,8 @@
 # Build worker image (VM template)
 image:
-  - Ubuntu1604
-  - Ubuntu1804
-  - Ubuntu2004
+#  - Ubuntu1604
+#  - Ubuntu1804
+#  - Ubuntu2004
   - Visual Studio 2017
   - Visual Studio 2019
   
