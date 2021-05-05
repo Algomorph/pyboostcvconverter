@@ -2,7 +2,9 @@
 image:
   - Ubuntu1604
   - Ubuntu1804
+  - Ubuntu2004
   - Visual Studio 2017
+  - Visual Studio 2019
   
 
 platform: x64
@@ -33,7 +35,23 @@ for:
   -
     matrix:
       only:
+        - image: Ubuntu2004
+    clone_folder: ~/pbcvt
+    init:
+      - sh: export REQUESTED_PYTHON_VERSION=3.X
+    test_script:
+      - sh: cd $APPVEYOR_BUILD_FOLDER/tests
+      - python3 -m pytest tests.py
+  -
+    matrix:
+      only:
         - image: Visual Studio 2017
+    clone_folder: c:\projects\pbcvt
+    
+  -
+    matrix:
+      only:
+        - image: Visual Studio 2019
     clone_folder: c:\projects\pbcvt
 
     init:
