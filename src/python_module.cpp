@@ -74,11 +74,15 @@ namespace pbcvt {
 
 
 #if (PY_VERSION_HEX >= 0x03000000)
+#ifndef NUMPY_IMPORT_ARRAY_RETVAL
 #define NUMPY_IMPORT_ARRAY_RETVAL NULL
-    static void *init_ar() {
+#endif
+    static void* init_ar() {
 #else
+#ifndef NUMPY_IMPORT_ARRAY_RETVAL
 #define NUMPY_IMPORT_ARRAY_RETVAL
-        static void init_ar(){
+#endif
+    static void init_ar(){
 #endif
         Py_Initialize();
 

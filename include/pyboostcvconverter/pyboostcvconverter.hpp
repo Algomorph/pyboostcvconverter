@@ -17,6 +17,18 @@
 #include <boost/python.hpp>
 #include <cstdio>
 
+#if (PY_VERSION_HEX >= 0x03000000)
+#ifndef NUMPY_IMPORT_ARRAY_RETVAL
+#define NUMPY_IMPORT_ARRAY_RETVAL NULL
+#endif
+#else
+#ifndef NUMPY_IMPORT_ARRAY_RETVAL
+#define NUMPY_IMPORT_ARRAY_RETVAL
+#endif
+#endif
+
+#define BOOST_BIND_GLOBAL_PLACEHOLDERS
+
 namespace pbcvt{
 
 using namespace cv;

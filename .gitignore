@@ -16,6 +16,8 @@ qrc_*
 *.so
 *.a
 *.dll
+# Compiled CPython extension on Windows
+*.pyd
 
 # Compiled Object files
 *.slo
