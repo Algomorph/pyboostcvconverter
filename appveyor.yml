@@ -1,10 +1,10 @@
 # Build worker image (VM template)
 image:
-#  - Ubuntu1604
-#  - Ubuntu1804
-#  - Ubuntu2004
+  - Ubuntu1604
+  - Ubuntu1804
+  - Ubuntu2004
   - Visual Studio 2017
-  - Visual Studio 2019
+  #- Visual Studio 2019
   
 
 platform: x64
@@ -112,7 +112,7 @@ build_script:
   - cmd: mkdir build
   - cmd:    cd build
   - cmd: cmake --version
-  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBoostDIR=%BOOST_DIR%
+  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBOOST_ROOT="C:\Libraries\boost_1_69_0"
   - cmd: cmake --build . --target ALL_BUILD --config %Configuration% -- /maxcpucount:4
   # Ubuntu (all)
   - sh: echo Ubuntu build script
