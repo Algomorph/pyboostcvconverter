@@ -82,9 +82,11 @@ init:
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set CMAKE_GENERATOR="Visual Studio 16 2019" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat" )
   # Debug
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( dir "C:\Libraries\boost_1_71_0\lib64-msvc-14.2" )
+  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( dir "C:\Libraries\boost_1_73_0\lib64-msvc-14.2" )
+  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( dir "C:\Libraries\boost_1_73_0" )
   # VS 2017
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set BOOST_DIR="C:\Libraries\boost_1_71_0\lib\cmake\Boost-1.71.0" )
+  # use BOOST_ROOT & Boost 1.69 for VS 2017 ONLY
+  # - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set BOOST_DIR="C:\Libraries\boost_1_71_0\lib\cmake\Boost-1.71.0" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set CMAKE_GENERATOR="Visual Studio 15 2017 %arch%" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" )
   - cmd: echo %CMAKE_GENERATOR%
