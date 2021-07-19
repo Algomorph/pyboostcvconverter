@@ -84,7 +84,7 @@ init:
   # Debug
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( dir "C:\Libraries\boost_1_73_0\lib64-msvc-14.2" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( dir "C:\Libraries\boost_1_73_0" )
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set Boost_DIR="%APPVEYOR_BUILD_FOLDER%\boost" && mkdir %Boost_DIR% && cd "C:\Libraries\boost_1_73_0" && bootstrap && b2 toolset=msvc-14.1 release debug runtime-link=shared link=static --build-type=complete --abbreviate-paths architecture=x86 address-model=64 install -j4 --prefix=%Boost_DIR%)
+  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set Boost_DIR="%APPVEYOR_BUILD_FOLDER%\boost" && mkdir %Boost_DIR% && cd "C:\Libraries\boost_1_73_0" && bootstrap && b2 toolset=msvc-14.2 release debug runtime-link=shared link=static --build-type=complete --abbreviate-paths architecture=x86 address-model=64 --with-python install -j4 --prefix=%Boost_DIR%)
   # VS 2017
   # use BOOST_ROOT & Boost 1.69 for VS 2017 ONLY
   # - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set BOOST_DIR="C:\Libraries\boost_1_71_0\lib\cmake\Boost-1.71.0" )
