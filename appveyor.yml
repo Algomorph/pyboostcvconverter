@@ -115,7 +115,10 @@ build_script:
   - cmd: mkdir build
   - cmd:    cd build
   - cmd: cmake --version
-  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBOOST_ROOT=C:\Libraries\boost_1_69_0
+  #- cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBOOST_ROOT=C:\Libraries\boost_1_69_0
+  # __DEBUG
+  - cmd: dir %Boost_DIR%
+  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBoost_DIR=%Boost_DIR%
   - cmd: cmake --build . --target ALL_BUILD --config %Configuration% -- /maxcpucount:4
   # Ubuntu (all)
   - sh: echo Ubuntu build script
