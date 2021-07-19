@@ -80,11 +80,11 @@ init:
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set VC2019ARCH=-A "x64" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set CMAKE_GENERATOR="Visual Studio 16 2019" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat" )
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set BOOST_ROOT="%APPVEYOR_BUILD_FOLDER%\boost" && mkdir %BOOST_ROOT% && cd "C:\Libraries\boost_1_73_0" && bootstrap --with-python="C:\Python37-x64\python.exe" && b2 toolset=msvc-14.2 release debug runtime-link=shared link=static architecture=x86 address-model=64 --build-type=complete --abbreviate-paths --with-python install -j4 -d0 --prefix=%BOOST_ROOT% )
+  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set BOOST_ROOT="%APPVEYOR_BUILD_FOLDER%\boost" && mkdir %BOOST_ROOT% && cd "C:\Libraries\boost_1_73_0" && bootstrap --with-python="C:\Python37-x64\python.exe" && b2 toolset=msvc-14.2 release debug runtime-link=shared link=static --build-type=complete --abbreviate-paths address-model=64 architecture=x86 --with-python install -j4 -d0 --prefix=%BOOST_ROOT%)
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set Boost_DIR="%APPVEYOR_BUILD_FOLDER%\boost\lib\cmake\Boost-1.73.0" )
   # VS 2017
   # use BOOST_ROOT & Boost 1.69 for VS 2017 ONLY
-  # - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set BOOST_DIR="C:\Libraries\boost_1_71_0\lib\cmake\Boost-1.71.0" )
+  # - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set Boost_DIR="C:\Libraries\boost_1_71_0\lib\cmake\Boost-1.71.0" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set CMAKE_GENERATOR="Visual Studio 15 2017 %arch%" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" )
 
@@ -118,7 +118,7 @@ build_script:
   #- cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBOOST_ROOT=C:\Libraries\boost_1_69_0
   # __DEBUG
   - cmd: dir %Boost_DIR%
-  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBoost_DIR=%Boost_DIR%
+  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION%
   - cmd: cmake --build . --target ALL_BUILD --config %Configuration% -- /maxcpucount:4
   # Ubuntu (all)
   - sh: echo Ubuntu build script
