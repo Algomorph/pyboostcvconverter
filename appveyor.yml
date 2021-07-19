@@ -80,7 +80,7 @@ init:
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set VC2019ARCH=-A "x64" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set CMAKE_GENERATOR="Visual Studio 16 2019" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat" )
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set BOOST_ROOT2="%APPVEYOR_BUILD_FOLDER%\boost")
+  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set BOOST_ROOT2="C\projects\boost")
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( mkdir %BOOST_ROOT2% )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( cd "C:\Libraries\boost_1_73_0" && bootstrap --with-python="C:\Python37-x64\python.exe" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( cd "C:\Libraries\boost_1_73_0" && b2 toolset=msvc-14.2 release debug runtime-link=shared link=static --build-type=complete --abbreviate-paths architecture=x86 address-model=64 --with-python install -j4 -d0 --prefix=%BOOST_ROOT2%)
