@@ -92,7 +92,7 @@ for:
 init:
   # Windows 10
   - cmd: ECHO on
-  - cmd: echo "Image: %APPVEYOR_BUILD_WORKER_IMAGE%"
+  - cmd: echo %APPVEYOR_BUILD_WORKER_IMAGE%
 
   # Diagnostics
   - cmd: echo %CMAKE_GENERATOR%
