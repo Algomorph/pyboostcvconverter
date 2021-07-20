@@ -84,14 +84,15 @@ for:
     environment:
         BOOST_CMAKE_VAR: Boost_DIR
         BOOST_CMAKE_VALUE: C\projects\boost_1_73\lib\cmake\Boost-1.73.0
-
+        CMAKE_GENERATOR: "Visual Studio 16 2019"
     test_script:
       - cmd: cd %APPVEYOR_BUILD_FOLDER%/tests
       - python -m pytest tests.py
 
 init:
   # Windows 10
-  - cmd: echo %APPVEYOR_BUILD_WORKER_IMAGE%
+  - cmd: ECHO on
+  - cmd: echo "Image: %APPVEYOR_BUILD_WORKER_IMAGE%"
 
   # Diagnostics
   - cmd: echo %CMAKE_GENERATOR%
