@@ -113,15 +113,13 @@ install:
 
 build_script:
   # Windows 10
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%
   - cmd: mkdir build
   - cmd:    cd build
   - cmd: cmake --version
   #- cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBOOST_ROOT=C:\Libraries\boost_1_69_0
   # __DEBUG
-  - cmd: dir C:\projects\boost_1_73
-  - cmd: dir C:\projects\boost_1_73\lib
-  - cmd: dir C:\projects\boost_1_73\lib\cmake
-  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION%
+  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% Boost_DIR=C:\projects\boost_1_73\lib\cmake\Boost-1.73.0
   - cmd: cmake --build . --target ALL_BUILD --config %Configuration% -- /maxcpucount:4
   # Ubuntu (all)
   - sh: echo Ubuntu build script
