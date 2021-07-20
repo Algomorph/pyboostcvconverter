@@ -92,7 +92,7 @@ install:
   - cmd: "echo using python : 3.7 : \"C:\\Python37-x64\\python.exe\" ; > C:\\Libraries\\boost_1_73_0\\tools\\build\\src\\user-config.jam"
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( mkdir %BOOST_ROOT2% )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( cd "C:\Libraries\boost_1_73_0" && bootstrap )
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( cd "C:\Libraries\boost_1_73_0" && b2 toolset=msvc-14.2 release debug python=3.7 runtime-link=shared link=static --build-type=complete --abbreviate-paths architecture=x86 address-model=64 --with-python install -j4 -d0 --prefix=%BOOST_ROOT2%)
+  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( cd "C:\Libraries\boost_1_73_0" && b2 toolset=msvc-14.2 release debug runtime-link=shared link=static --build-type=complete --abbreviate-paths architecture=x86 address-model=64 --with-python install -j4 -d0 --prefix=%BOOST_ROOT2%)
   # All Windows Images
   - cmd: choco install -y opencv
   - cmd: set PATH=C:\tools\opencv\build\bin;C:\tools\opencv\build\x64\vc15\bin;C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
