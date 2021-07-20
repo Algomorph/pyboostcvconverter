@@ -80,7 +80,7 @@ init:
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set VC2019ARCH=-A "x64" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set CMAKE_GENERATOR="Visual Studio 16 2019" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat" )
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set BOOST_ROOT2="C\projects\boost_1_73")
+  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set BOOST_ROOT2="C:\projects\boost_1_73")
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set Boost_DIR="%BOOST_ROOT2%\lib\cmake\Boost-1.73.0" )
   # VS 2017
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set CMAKE_GENERATOR="Visual Studio 15 2017 %arch%" )
@@ -118,7 +118,9 @@ build_script:
   - cmd: cmake --version
   #- cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBOOST_ROOT=C:\Libraries\boost_1_69_0
   # __DEBUG
-  - cmd: dir C\projects\boost_1_73\lib\Boost-1.73.0
+  - cmd: dir C:\projects\boost_1_73
+  - cmd: dir C:\projects\boost_1_73\lib
+  - cmd: dir C:\projects\boost_1_73\lib\cmake
   - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION%
   - cmd: cmake --build . --target ALL_BUILD --config %Configuration% -- /maxcpucount:4
   # Ubuntu (all)
