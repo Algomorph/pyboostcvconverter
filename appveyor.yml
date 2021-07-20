@@ -47,9 +47,6 @@ for:
       only:
         - image: Visual Studio 2017
     clone_folder: c:\projects\pbcvt
-    environment:
-        boost_cmake_var: BOOST_ROOT
-        boost_cmake_value: C:\Libraries\boost_1_69_0
     test_script:
       - cmd: cd %APPVEYOR_BUILD_FOLDER%/tests
       - python -m pytest tests.py
@@ -59,9 +56,6 @@ for:
       only:
         - image: Visual Studio 2019
     clone_folder: c:\projects\pbcvt
-    environment:
-        boost_cmake_var: Boost_DIR
-        boost_cmake_value: C:\Libraries\boost_1_73_0\lib\cmake\Boost-1.73.0
     test_script:
       - cmd: cd %APPVEYOR_BUILD_FOLDER%/tests
       - python -m pytest tests.py
@@ -119,7 +113,7 @@ build_script:
   - cmd: cmake --version
   #- cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBOOST_ROOT=C:\Libraries\boost_1_69_0
   # __DEBUG
-  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% Boost_DIR=C:\projects\boost_1_73\lib\cmake\Boost-1.73.0
+  - cmd: cmake .. -G %CMAKE_GENERATOR% %VC2019ARCH% -DCMAKE_BUILD_TYPE=%Configuration% -DBUILD_TEST_PROJECT=ON -DPYTHON_DESIRED_VERSION=%REQUESTED_PYTHON_VERSION% -DBoost_DIR=C:\projects\boost_1_73\lib\cmake\Boost-1.73.0
   - cmd: cmake --build . --target ALL_BUILD --config %Configuration% -- /maxcpucount:4
   # Ubuntu (all)
   - sh: echo Ubuntu build script
