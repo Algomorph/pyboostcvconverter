@@ -3,7 +3,7 @@ image:
   # - Ubuntu1604
   # - Ubuntu1804
   # - Ubuntu2004
-  # - Visual Studio 2017
+  - Visual Studio 2017
   - Visual Studio 2019
   
 
@@ -47,6 +47,8 @@ for:
       only:
         - image: Visual Studio 2017
     clone_folder: c:\projects\pbcvt
+    init:
+      - cmd: echo "I AM Visual Studio 2017 IMAGE"
     environment:
         boost_cmake_var: BOOST_ROOT
         boost_cmake_value: C:\Libraries\boost_1_69_0
@@ -59,9 +61,11 @@ for:
       only:
         - image: Visual Studio 2019
     clone_folder: c:\projects\pbcvt
+    init:
+      - cmd: echo "I AM Visual Studio 2019 IMAGE"
     environment:
         boost_cmake_var: Boost_DIR
-        boost_cmake_value: C:\Libraries\boost_1_73_0\lib\cmake\Boost-1.73.0
+        boost_cmake_value: C\projects\boost_1_73\lib\cmake\Boost-1.73.0
     test_script:
       - cmd: cd %APPVEYOR_BUILD_FOLDER%/tests
       - python -m pytest tests.py
@@ -90,7 +94,6 @@ init:
   # - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set Boost_DIR="C:\Libraries\boost_1_71_0\lib\cmake\Boost-1.71.0" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set CMAKE_GENERATOR="Visual Studio 15 2017 %arch%" )
   - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" )
-  # Clean out artifact build folder
   # Diagnostics
   - cmd: echo %CMAKE_GENERATOR%
   # print info
